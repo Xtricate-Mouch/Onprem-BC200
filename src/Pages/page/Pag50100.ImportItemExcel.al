@@ -1,7 +1,7 @@
-page 50100 "So Item WorkSheet"
+page 50100 "Item WorkSheet"
 {
     AutoSplitKey = true;
-    Caption = 'SO Import Worksheet';
+    Caption = 'Import Worksheet';
     DelayedInsert = true;
     InsertAllowed = false;
     ModifyAllowed = false;
@@ -100,18 +100,18 @@ page 50100 "So Item WorkSheet"
     local procedure ReadExcelSheet()
     var
         FileMgt: Codeunit "File Management";
-        IStream: InStream;
+        InStream: InStream;
         FromFile: Text[100];
     begin
-        UploadIntoStream(UploadExcelMsg, '', '', FromFile, IStream);
+        UploadIntoStream(UploadExcelMsg, '', '', FromFile, InStream);
         if FromFile <> '' then begin
             FileName := FileMgt.GetFileName(FromFile);
-            SheetName := TempExcelBuffer.SelectSheetsNameStream(IStream);
+            SheetName := TempExcelBuffer.SelectSheetsNameStream(InStream);
         end else
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
-        TempExcelBuffer.OpenBookStream(IStream, SheetName);
+        TempExcelBuffer.OpenBookStream(InStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;
 

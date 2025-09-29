@@ -35,4 +35,22 @@ codeunit 50100 "Export Data To Excel"
         ExcelBuf.SetFriendlyFilename(FileName); // Optional, sets the download name
         ExcelBuf.OpenExcel();
     end;
+
+    procedure ImportItemsFromExcel()
+    var
+        ExcelBuffer: Record "Excel Buffer";
+        InStream: InStream;
+        FileName: Text;
+        SheetName: Text;
+        CurrentRow: Integer;
+    begin
+        if UploadIntoStream('Import Excel', '', 'Excel File (*.xlsx)|*.xlsx', FileName, InStream) then begin
+            SheetName := ExcelBuffer.SelectSheetsNameStream(InStream);
+            ExcelBuffer.OpenBookStream(InStream, SheetName);
+            ExcelBuffer.ReadSheet();
+            Message('Imported %1 rows,%2 Column', ExcelBuffer."Row No.", ExcelBuffer."Column No.");
+        end else
+            Error('No file was uploaded.');
+    end;
+
 }
