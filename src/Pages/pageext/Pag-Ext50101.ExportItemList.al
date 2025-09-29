@@ -21,6 +21,22 @@ pageextension 50101 "Export Item List" extends "Item List"
                     export.ExportToExcel();
                 end;
             }
+            action(imort)
+            {
+                Caption = 'Import Data';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                Image = ImportExcel;
+
+                trigger OnAction()
+                var
+                    export: Codeunit "Export Data To Excel";
+                begin
+                    export.ImportItemsFromExcel();
+                end;
+            }
         }
     }
 }
